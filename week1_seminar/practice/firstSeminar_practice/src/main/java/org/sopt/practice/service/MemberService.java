@@ -9,6 +9,9 @@ import org.sopt.practice.service.dto.MemberFindDto;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class MemberService {
@@ -27,6 +30,15 @@ public class MemberService {
         return MemberFindDto.of(memberRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("ID에 해당하는 사용자가 없네여~ㅋㅋ")
         ));
+    }
+
+    // 모든 등록된 회원 정보 List로 반환
+    public List<MemberFindDto> findMemberList() {
+        List<Member> memberList = memberRepository.findAll();
+
+        return new ArrayList<>(memberList.stream()
+                .map(member -> MemberFindDto.of(member))
+                .toList());
     }
 
     @Transactional
