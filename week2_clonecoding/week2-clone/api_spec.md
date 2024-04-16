@@ -18,6 +18,7 @@ Host: localhost:8080
 | price    | double  | 가격          |
 | text     | String  | 물건 자세한 설명   |
 | location | String  | 거래 장소       |
+| memberId | int     | 작성자 id 값    |
 -----------------------------------
 #### Response
 
