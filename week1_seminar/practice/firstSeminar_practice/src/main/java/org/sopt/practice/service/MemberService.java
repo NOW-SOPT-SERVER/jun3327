@@ -2,6 +2,8 @@ package org.sopt.practice.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.sopt.practice.Exception.NotFoundException;
+import org.sopt.practice.common.dto.ErrorMessage;
 import org.sopt.practice.domain.Member;
 import org.sopt.practice.repository.MemberRepository;
 import org.sopt.practice.service.dto.MemberCreateDto;
@@ -25,14 +27,19 @@ public class MemberService {
 //    @Transactional(readOnly = true)
     public MemberFindDto findMemberById(Long id) {
         return MemberFindDto.of(memberRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("ID에 해당하는 사용자가 없네여~ㅋㅋ")
+                () -> new NotFoundException(ErrorMessage.MEMBER_NOT_FOUND)
         ));
     }
 
+    public Member findMemberEntityById(Long id) {
+        return memberRepository.findById(id).orElseThrow(
+                () -> new NotFoundException(ErrorMessage.MEMBER_NOT_FOUND)
+        );
+    }
     @Transactional
     public void deleteMemberById(Long id) {
         Member member = memberRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("ID에 해당하는 사용자가 없음"));
+                () -> new NotFoundException(ErrorMessage.MEMBER_NOT_FOUND));
         memberRepository.delete(member);
     }
 }
