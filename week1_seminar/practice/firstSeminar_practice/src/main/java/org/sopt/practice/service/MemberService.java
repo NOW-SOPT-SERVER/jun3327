@@ -11,6 +11,9 @@ import org.sopt.practice.service.dto.MemberFindDto;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class MemberService {
@@ -31,11 +34,23 @@ public class MemberService {
         ));
     }
 
+
+    // 모든 등록된 회원 정보 List로 반환
+    public List<MemberFindDto> findMemberList() {
+        List<Member> memberList = memberRepository.findAll();
+
+        return new ArrayList<>(memberList.stream()
+                .map(member -> MemberFindDto.of(member))
+                .toList());
+    }
+
+
     public Member findMemberEntityById(Long id) {
         return memberRepository.findById(id).orElseThrow(
                 () -> new NotFoundException(ErrorMessage.MEMBER_NOT_FOUND)
         );
     }
+
     @Transactional
     public void deleteMemberById(Long id) {
         Member member = memberRepository.findById(id).orElseThrow(
