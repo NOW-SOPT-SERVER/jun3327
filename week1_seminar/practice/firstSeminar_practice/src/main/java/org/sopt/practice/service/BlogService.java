@@ -2,7 +2,7 @@ package org.sopt.practice.service;
 
 import lombok.RequiredArgsConstructor;
 import org.sopt.practice.Exception.NotFoundException;
-import org.sopt.practice.common.dto.ErrorMessage;
+import org.sopt.practice.Exception.ErrorMessage;
 import org.sopt.practice.domain.Blog;
 import org.sopt.practice.domain.Member;
 import org.sopt.practice.repository.BlogRepository;
@@ -25,6 +25,12 @@ public class BlogService {
     }
 
     private Blog findById(Long blogId) {
+        return blogRepository.findById(blogId).orElseThrow(
+                () -> new NotFoundException(ErrorMessage.BLOG_NOT_FOUND)
+        );
+    }
+
+    public Blog findBlogEntityById(Long blogId) {
         return blogRepository.findById(blogId).orElseThrow(
                 () -> new NotFoundException(ErrorMessage.BLOG_NOT_FOUND)
         );
