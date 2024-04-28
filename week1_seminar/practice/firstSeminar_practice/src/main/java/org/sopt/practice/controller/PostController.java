@@ -7,9 +7,13 @@ import org.sopt.practice.common.dto.SuccessStatusResponse;
 import org.sopt.practice.domain.SuccessMessage;
 import org.sopt.practice.service.PostService;
 import org.sopt.practice.service.dto.PostCreateDto;
+import org.sopt.practice.service.dto.PostFindDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -28,6 +32,10 @@ public class PostController {
                 .body(SuccessStatusResponse.of(SuccessMessage.POST_CREATE_SUCCESS));
     }
 
-//    @GetMapping("/post/{postId}")
-//    public ResponseEntity
+    @GetMapping("/post/{postId}")
+    public ResponseEntity<SuccessStatusResponse<PostFindDto>> findPostById(@PathVariable Long postId) {
+
+        return ResponseEntity.ok().body(SuccessStatusResponse.of(SuccessMessage.POST_FIND_SUCCESS,
+                postService.findById(postId)));
+    }
 }

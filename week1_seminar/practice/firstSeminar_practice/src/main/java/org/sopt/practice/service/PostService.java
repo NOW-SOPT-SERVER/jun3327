@@ -3,11 +3,13 @@ package org.sopt.practice.service;
 import jakarta.persistence.PostRemove;
 import lombok.RequiredArgsConstructor;
 import org.sopt.practice.Exception.ErrorMessage;
+import org.sopt.practice.Exception.NotFoundException;
 import org.sopt.practice.Exception.UserAuthenticationException;
 import org.sopt.practice.domain.Blog;
 import org.sopt.practice.domain.Post;
 import org.sopt.practice.repository.PostRepository;
 import org.sopt.practice.service.dto.PostCreateDto;
+import org.sopt.practice.service.dto.PostFindDto;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,5 +35,11 @@ public class PostService {
         if(!(findBlog.getMember().getId().equals(memberId))) {
             throw new UserAuthenticationException(ErrorMessage.USER_AUTHENTICATE_FAIL);
         }
+    }
+
+    public PostFindDto findById(Long postId) {
+        return PostFindDto.of(postRepository.findById(postId).orElseThrow(
+                () -> new NotFoundException(ErrorMessage.POST_NOT_FOUND)
+        ));
     }
 }
