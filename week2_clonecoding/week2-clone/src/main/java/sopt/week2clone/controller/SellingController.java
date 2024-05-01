@@ -19,4 +19,10 @@ public class SellingController {
     public ResponseEntity createSelling(@RequestBody SellingCreateDto sellingCreateDto) {
         return ResponseEntity.created(URI.create(sellingService.createSelling(sellingCreateDto))).build();
     }
+
+    @GetMapping("/list")
+        public ResponseEntity getSellingListByLocation(@RequestParam String location) {
+            sellingService.findListByLocation(location);
+        }
+    }
 }

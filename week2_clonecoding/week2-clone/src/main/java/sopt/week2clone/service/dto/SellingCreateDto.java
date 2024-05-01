@@ -4,7 +4,7 @@ public record SellingCreateDto(
         Long memberId,
         String title,
         String method,
-        boolean proposal,
+        boolean priceProposal,
         double price,
         String text,
         String location
