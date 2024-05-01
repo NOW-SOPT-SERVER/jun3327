@@ -23,7 +23,7 @@ public class SellingController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity getSellingListByLocation(@RequestParam String location) {
+    public ResponseEntity getSellingListByLocation(@RequestParam(value = "location") String location) {
         return ResponseEntity.ok().body(sellingService.findListByLocation(location));
     }
 }

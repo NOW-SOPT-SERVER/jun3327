@@ -1,4 +1,4 @@
-package sopt.week2clone;
+package sopt.week2clone.service;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -9,7 +9,6 @@ import sopt.week2clone.domain.Member;
 import sopt.week2clone.domain.Selling;
 import sopt.week2clone.repository.MemberRepository;
 import sopt.week2clone.repository.SellingRepository;
-import sopt.week2clone.service.SellingService;
 import sopt.week2clone.service.dto.CreateMemberDto;
 import sopt.week2clone.service.dto.SellingDto;
 
