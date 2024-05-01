@@ -9,8 +9,10 @@ import sopt.week2clone.domain.Selling;
 import sopt.week2clone.repository.MemberRepository;
 import sopt.week2clone.repository.SellingRepository;
 import sopt.week2clone.service.dto.SellingCreateDto;
-import sopt.week2clone.service.dto.SellingListDto;
+import sopt.week2clone.service.dto.SellingDto;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -40,15 +42,19 @@ public class SellingService {
         return selling.getId().toString();
     }
 
-    public List<SellingListDto> findListByLocation(String location) {
-        sellingRepository.findByLocationContaining(location).stream().map(
-                selling -> SellingListDto.of(selling,
+    public List<SellingDto> findListByLocation(String location) {
+        return sellingRepository.findByLocationContaining(location).stream().map(
+                selling -> SellingDto.of(selling,
                         likeService.getSellingLikeCount(selling.getId()),
-                        selling.getCreatedAt())
-        );
+                        parseCreatedAtInMinute(selling.getCreatedAt())))
+                .toList();
     }
 
-    private
+    //분 단위로 판매 등록 기간 반환
+    private long parseCreatedAtInMinute(LocalDateTime createdAt) {
+        Duration duration = Duration.between(createdAt, LocalDateTime.now());
+        return duration.toMinutes();
+    }
 
 
 }

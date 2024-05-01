@@ -11,6 +11,6 @@ public class LikeService {
     private final LikeRepository likeRepository;
 
     public int getSellingLikeCount(Long sellingId) {
-        likeRepository.
+        return likeRepository.findSellingLikeCount(sellingId);
     }
 }
