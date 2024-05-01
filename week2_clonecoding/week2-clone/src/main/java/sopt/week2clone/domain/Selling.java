@@ -20,6 +20,7 @@ public class Selling extends BaseTimeEntity {
     private double price;
     private String text;
     private String location;
+    private int likeCount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;

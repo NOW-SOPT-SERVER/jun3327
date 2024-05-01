@@ -60,10 +60,4 @@ public class SellingService {
         Duration duration = Duration.between(createdAt, LocalDateTime.now());
         return duration.toMinutes();
     }
-
-    @Transactional
-    public String addLike(CreateLikeDto createLikeDto) {
-        return likeService.create(createLikeDto);
-    }
-
 }
