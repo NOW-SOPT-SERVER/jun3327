@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sopt.week2clone.service.SellingService;
+import sopt.week2clone.service.dto.CreateLikeDto;
 import sopt.week2clone.service.dto.SellingCreateDto;
 import sopt.week2clone.service.dto.SellingDto;
 
@@ -25,5 +26,11 @@ public class SellingController {
     @GetMapping("/list")
     public ResponseEntity getSellingListByLocation(@RequestParam(value = "location") String location) {
         return ResponseEntity.ok().body(sellingService.findListByLocation(location));
+    }
+
+    @PostMapping("/{sellingId}")
+    public ResponseEntity doLike(@RequestHeader Long memberId,
+                                 @PathVariable("sellingId") Long sellingId) {
+        return ResponseEntity.created(URI.create(sellingService.addLike(new CreateLikeDto(sellingId, memberId)))).build();
     }
 }

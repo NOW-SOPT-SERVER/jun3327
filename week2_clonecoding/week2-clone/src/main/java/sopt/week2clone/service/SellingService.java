@@ -8,6 +8,7 @@ import sopt.week2clone.domain.Member;
 import sopt.week2clone.domain.Selling;
 import sopt.week2clone.repository.MemberRepository;
 import sopt.week2clone.repository.SellingRepository;
+import sopt.week2clone.service.dto.CreateLikeDto;
 import sopt.week2clone.service.dto.SellingCreateDto;
 import sopt.week2clone.service.dto.SellingDto;
 
@@ -42,9 +43,8 @@ public class SellingService {
         return selling.getId().toString();
     }
 
-    public List<Selling> findAll() {
-        List<Selling> all = sellingRepository.findAll();
-        return all;
+    public Selling findSellingEntityById(Long sellingId) {
+        return sellingRepository.findById(sellingId).orElseThrow(RuntimeException::new);
     }
 
     public List<SellingDto> findListByLocation(String location) {
@@ -61,5 +61,9 @@ public class SellingService {
         return duration.toMinutes();
     }
 
+    @Transactional
+    public String addLike(CreateLikeDto createLikeDto) {
+        return likeService.create(createLikeDto);
+    }
 
 }

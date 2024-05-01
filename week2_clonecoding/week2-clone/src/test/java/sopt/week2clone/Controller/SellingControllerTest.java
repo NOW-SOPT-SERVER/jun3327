@@ -52,7 +52,7 @@ public class SellingControllerTest extends ApiTest {
                     .given()
                     .log().all()
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
-                    .queryParam("location", "삼성동")
+                    .queryParam("location", requestLocation)
                     .when()
                     .get("/api/v1/home/post/sell/list")
                     .then().log().all().extract();
