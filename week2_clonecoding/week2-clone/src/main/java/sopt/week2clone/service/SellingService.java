@@ -42,6 +42,11 @@ public class SellingService {
         return selling.getId().toString();
     }
 
+    public List<Selling> findAll() {
+        List<Selling> all = sellingRepository.findAll();
+        return all;
+    }
+
     public List<SellingDto> findListByLocation(String location) {
         return sellingRepository.findByLocationContaining(location).stream().map(
                 selling -> SellingDto.of(selling,
