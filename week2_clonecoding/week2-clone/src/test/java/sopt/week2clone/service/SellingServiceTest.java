@@ -10,6 +10,7 @@ import sopt.week2clone.domain.Selling;
 import sopt.week2clone.repository.MemberRepository;
 import sopt.week2clone.repository.SellingRepository;
 import sopt.week2clone.service.dto.CreateMemberDto;
+import sopt.week2clone.service.dto.SellingCreateDto;
 import sopt.week2clone.service.dto.SellingDto;
 
 import java.util.List;
@@ -33,12 +34,19 @@ public class SellingServiceTest {
         Member member1 = Member.createOne(new CreateMemberDto("솝솝이"));
         memberRepository.save(member1);
 
-        Selling selling1 = new Selling("selling1", "판매하기",
-                false, 10000, "selling1 text", "삼성동", member1);
-        Selling selling2 = new Selling("selling2", "판매하기",
-                false, 10000, "selling2 text", "삼성동", member1);
-        Selling selling3 = new Selling("selling3", "판매하기",
-                false, 10000, "selling3 text", "구의동", member1);
+
+        SellingCreateDto sellingCreateDto1 = new SellingCreateDto(1L,"selling1", "판매하기",
+                false, 10000, "selling1 text", "삼성동");
+
+        SellingCreateDto sellingCreateDto2 = new SellingCreateDto(1L,"selling2", "판매하기",
+                false, 10000, "selling2 text", "삼성동");
+
+        SellingCreateDto sellingCreateDto3 = new SellingCreateDto(1L,"selling3", "판매하기",
+                false, 10000, "selling3 text", "구의동");
+
+        Selling selling1 = Selling.create(sellingCreateDto1, member1);
+        Selling selling2 = Selling.create(sellingCreateDto2, member1);
+        Selling selling3 = Selling.create(sellingCreateDto3, member1);
 
         sellingRepository.save(selling1);
         sellingRepository.save(selling2);

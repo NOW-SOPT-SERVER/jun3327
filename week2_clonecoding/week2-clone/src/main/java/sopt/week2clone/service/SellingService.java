@@ -29,22 +29,8 @@ public class SellingService {
         Member findMember = memberRepository.findById(sellingCreateDto.memberId()).orElseThrow(
                 () -> new EntityNotFoundException("해당하는 id의 사용자가 없습니다.")
         );
-        Selling selling = Selling.builder()
-                .text(sellingCreateDto.text())
-                .title(sellingCreateDto.title())
-                .method(sellingCreateDto.method())
-                .price(sellingCreateDto.price())
-                .priceProposal(sellingCreateDto.priceProposal())
-                .location(sellingCreateDto.location())
-                .member(findMember)
-                .build();
-        sellingRepository.save(selling);
 
-        return selling.getId().toString();
-    }
-
-    public Selling findSellingEntityById(Long sellingId) {
-        return sellingRepository.findById(sellingId).orElseThrow(RuntimeException::new);
+        return sellingRepository.save(Selling.create(sellingCreateDto, findMember)).getId().toString();
     }
 
     public List<SellingDto> findListByLocation(String location) {
