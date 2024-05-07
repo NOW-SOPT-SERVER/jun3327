@@ -1,6 +1,7 @@
 package org.sopt.practice.common;
 
 import org.sopt.practice.Exception.NotFoundException;
+import org.sopt.practice.Exception.UserAuthenticationException;
 import org.sopt.practice.common.dto.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NotFoundException.class)
     protected ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorResponse.of(e.getErrorMessage()));
+    }
+
+    @ExceptionHandler(UserAuthenticationException.class)
+    protected ResponseEntity<ErrorResponse> handleUserAuthenticationException(UserAuthenticationException e) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ErrorResponse.of(e.getErrorMessage()));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

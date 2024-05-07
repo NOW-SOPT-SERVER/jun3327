@@ -1,5 +1,7 @@
 package org.sopt.practice.common.dto;
 
+import org.sopt.practice.Exception.ErrorMessage;
+
 public record ErrorResponse(
         int status,
         String message
