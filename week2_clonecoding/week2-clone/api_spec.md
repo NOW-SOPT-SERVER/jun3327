@@ -89,7 +89,7 @@ Host: localhost:8080
 ### 3. 상품에 좋아요 POST API
 - 사용자가 좋아요 버튼을 누르면 해당 상품에 좋아요 +1
 ### Request
-
+ 
 #### Path Parameter
 - Path variables
 

@@ -3,10 +3,14 @@ package sopt.week2clone.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import sopt.week2clone.service.LikeService;
 import sopt.week2clone.service.SellingService;
+import sopt.week2clone.service.dto.CreateLikeDto;
 import sopt.week2clone.service.dto.SellingCreateDto;
+import sopt.week2clone.service.dto.SellingDto;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,8 +25,8 @@ public class SellingController {
     }
 
     @GetMapping("/list")
-        public ResponseEntity getSellingListByLocation(@RequestParam String location) {
-            sellingService.findListByLocation(location);
-        }
+    public ResponseEntity getSellingListByLocation(@RequestParam(value = "location") String location) {
+        return ResponseEntity.ok().body(sellingService.findListByLocation(location));
     }
+
 }

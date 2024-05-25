@@ -7,6 +7,6 @@ import sopt.week2clone.domain.Like;
 
 public interface LikeRepository extends JpaRepository<Like, Long> {
 
-    @Query("select count(l) from Like l where l.selling.id =: sellingId")
+    @Query("select count(l) from Like l where l.selling.id = :sellingId")
     int findSellingLikeCount(@Param("sellingId") Long sellingId);
 }
