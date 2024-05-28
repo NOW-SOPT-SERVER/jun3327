@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.sopt.practice.Exception.UnauthorizedException;
+import org.sopt.practice.exception.UnauthorizedException;
 import org.sopt.practice.auth.UserAuthentication;
 import org.sopt.practice.common.dto.ErrorMessage;
 import org.sopt.practice.common.jwt.JwtTokenProvider;

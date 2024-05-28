@@ -1,8 +1,8 @@
 package org.sopt.practice.service;
 
 import lombok.RequiredArgsConstructor;
-import org.sopt.practice.Exception.NotFoundException;
-import org.sopt.practice.Exception.ErrorMessage;
+import org.sopt.practice.common.dto.ErrorMessage;
+import org.sopt.practice.exception.NotFoundException;
 import org.sopt.practice.domain.Blog;
 import org.sopt.practice.domain.Member;
 import org.sopt.practice.external.S3Service;
