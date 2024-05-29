@@ -1,6 +1,5 @@
 package org.sopt.practice.common.dto;
 
-import com.sun.net.httpserver.Authenticator;
 import org.sopt.practice.domain.SuccessMessage;
 
 public record SuccessStatusResponse<T> (
