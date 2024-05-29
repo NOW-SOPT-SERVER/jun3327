@@ -1,6 +1,8 @@
 package org.sopt.practice.service;
 
 import lombok.RequiredArgsConstructor;
+import org.sopt.practice.auth.redis.domain.Token;
+import org.sopt.practice.auth.redis.repository.RedisTokenRepository;
 import org.sopt.practice.common.dto.ErrorMessage;
 import org.sopt.practice.exception.NotFoundException;
 import org.sopt.practice.auth.UserAuthentication;
@@ -22,6 +24,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final JwtTokenProvider jwtTokenProvider;
+    private final RedisTokenRepository redisTokenRepository;
 
 //    @Transactional
 //    public String createMember(final MemberCreateDto createDto) {

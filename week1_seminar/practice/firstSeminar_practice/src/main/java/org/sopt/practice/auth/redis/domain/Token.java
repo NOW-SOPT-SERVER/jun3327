@@ -7,19 +7,20 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.index.Indexed;
 
-@RedisHash(value = "", timeToLive = 24 * 60 * 60 * 1000L * 14)
+@RedisHash(value = "refreshToken", timeToLive = 60 * 60L)
 @AllArgsConstructor
 @Getter
 @Builder
 public class Token {
 
+    //memberId로 저장.
     @Id
     private Long id;
 
     @Indexed
     private String refreshToken;
 
-    private static Token of(
+    public static Token of(
             final Long id,
             final String refreshToken
     ) {

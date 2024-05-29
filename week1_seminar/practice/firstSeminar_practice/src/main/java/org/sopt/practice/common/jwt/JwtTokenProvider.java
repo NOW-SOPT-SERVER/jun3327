@@ -4,6 +4,11 @@ package org.sopt.practice.common.jwt;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
+import org.sopt.practice.auth.UserAuthentication;
+import org.sopt.practice.auth.redis.domain.Token;
+import org.sopt.practice.auth.redis.repository.RedisTokenRepository;
+import org.sopt.practice.common.dto.ErrorMessage;
+import org.sopt.practice.exception.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -16,14 +21,13 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class JwtTokenProvider {
 
+    private final RedisTokenRepository redisTokenRepository;
+
     private static final String USER_ID = "userId";
 
-//    private static final Long ACCESS_TOKEN_EXPIRATION_TIME = 10 * 60 * 1000L; // 10분
-//
-//    private static final Long REFRESH_TOKEN_EXPIRATION_TIME = 24 * 60 * 60 * 1000L * 14; // 14일
+    private static final Long ACCESS_TOKEN_EXPIRATION_TIME = 30 * 1000L; // 10분
 
-    private static final Long ACCESS_TOKEN_EXPIRATION_TIME = 60 * 1000L; // 10분
-    private static final Long REFRESH_TOKEN_EXPIRATION_TIME = 2 * 60 * 1000L; // 14일
+    private static final Long REFRESH_TOKEN_EXPIRATION_TIME = 60 * 1000L; // 14일
 
     @Value("${jwt.secret}")
     private String JWT_SECRET;
@@ -34,7 +38,9 @@ public class JwtTokenProvider {
     }
 
     public String issueRefreshToken(final Authentication authentication) {
-        return generateToken(authentication, REFRESH_TOKEN_EXPIRATION_TIME);
+        String token = generateToken(authentication, REFRESH_TOKEN_EXPIRATION_TIME);
+        redisTokenRepository.save(Token.of(Long.valueOf(authentication.getPrincipal().toString()), token));
+        return token;
     }
 
     public String generateToken(Authentication authentication, Long tokenExpirationTime) {
@@ -65,8 +71,8 @@ public class JwtTokenProvider {
             return JwtValidationType.INVALID_JWT_TOKEN;
         } catch (ExpiredJwtException ex) {
             // 요청에서 온 토큰이 Access Token, Refresh Token일 경우를 나눠서 각각 예외처리를 위한 분기점
-            if((ex.getClaims().getExpiration().getTime() - ex.getClaims().getIssuedAt().getTime())
-                    == ACCESS_TOKEN_EXPIRATION_TIME) {
+            Claims claims = ex.getClaims();
+            if(claims.getExpiration().getTime() - claims.getIssuedAt().getTime() == ACCESS_TOKEN_EXPIRATION_TIME) {
                 return JwtValidationType.EXPIRED_JWT_ACCESS_TOKEN;
             } else {
                 return JwtValidationType.EXPIRED_JWT_REFRESH_TOKEN;
@@ -75,6 +81,22 @@ public class JwtTokenProvider {
             return JwtValidationType.UNSUPPORTED_JWT_TOKEN;
         } catch (IllegalArgumentException ex) {
             return JwtValidationType.EMPTY_JWT;
+        }
+    }
+
+    public boolean isAccessToken(String token) {
+        Claims body = getBody(token);
+        return (body.getExpiration().getTime() - body.getIssuedAt().getTime()) == ACCESS_TOKEN_EXPIRATION_TIME;
+    }
+
+    public String reIssueAccessToken(String refreshToken, Long id) {
+        Token findRefreshToken = redisTokenRepository.findByRefreshToken(refreshToken).orElseThrow(
+                () -> new RuntimeException("서버 에러")
+        );
+        if(findRefreshToken.getId().equals(id)) {
+            return issueAccessToken(UserAuthentication.createUserAuthentication(id));
+        } else {
+            throw new UnauthorizedException(ErrorMessage.JWT_UNAUTHORIZED_EXCEPTION);
         }
     }
 
