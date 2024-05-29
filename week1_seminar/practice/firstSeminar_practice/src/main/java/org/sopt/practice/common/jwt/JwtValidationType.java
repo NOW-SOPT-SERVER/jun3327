@@ -6,5 +6,7 @@ public enum JwtValidationType {
     INVALID_JWT_TOKEN,          // 유효하지 않은 토큰
     EXPIRED_JWT_TOKEN,          // 만료된 토큰
     UNSUPPORTED_JWT_TOKEN,      // 지원하지 않는 형식의 토큰
-    EMPTY_JWT                   // 빈 JWT
+    EMPTY_JWT,                   // 빈 JWT
+    EXPIRED_JWT_ACCESS_TOKEN,   // access 토큰 기간 만료
+    EXPIRED_JWT_REFRESH_TOKEN   // refresh 토큰 기간 만료
 }

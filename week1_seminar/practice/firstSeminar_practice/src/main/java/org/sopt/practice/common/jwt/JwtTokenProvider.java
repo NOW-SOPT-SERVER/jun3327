@@ -18,9 +18,12 @@ public class JwtTokenProvider {
 
     private static final String USER_ID = "userId";
 
-    private static final Long ACCESS_TOKEN_EXPIRATION_TIME = 10 * 60 * 1000L; // 10분
+//    private static final Long ACCESS_TOKEN_EXPIRATION_TIME = 10 * 60 * 1000L; // 10분
+//
+//    private static final Long REFRESH_TOKEN_EXPIRATION_TIME = 24 * 60 * 60 * 1000L * 14; // 14일
 
-    private static final Long REFRESH_TOKEN_EXPIRATION_TIME = 24 * 60 * 60 * 1000L * 14; // 14일
+    private static final Long ACCESS_TOKEN_EXPIRATION_TIME = 60 * 1000L; // 10분
+    private static final Long REFRESH_TOKEN_EXPIRATION_TIME = 2 * 60 * 1000L; // 14일
 
     @Value("${jwt.secret}")
     private String JWT_SECRET;
@@ -39,7 +42,6 @@ public class JwtTokenProvider {
         final Claims claims = Jwts.claims()
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + tokenExpirationTime));      // 만료 시간
-
         claims.put(USER_ID, authentication.getPrincipal());
 
         return Jwts.builder()
@@ -62,7 +64,13 @@ public class JwtTokenProvider {
         } catch (MalformedJwtException ex) {
             return JwtValidationType.INVALID_JWT_TOKEN;
         } catch (ExpiredJwtException ex) {
-            return JwtValidationType.EXPIRED_JWT_TOKEN;
+            // 요청에서 온 토큰이 Access Token, Refresh Token일 경우를 나눠서 각각 예외처리를 위한 분기점
+            if((ex.getClaims().getExpiration().getTime() - ex.getClaims().getIssuedAt().getTime())
+                    == ACCESS_TOKEN_EXPIRATION_TIME) {
+                return JwtValidationType.EXPIRED_JWT_ACCESS_TOKEN;
+            } else {
+                return JwtValidationType.EXPIRED_JWT_REFRESH_TOKEN;
+            }
         } catch (UnsupportedJwtException ex) {
             return JwtValidationType.UNSUPPORTED_JWT_TOKEN;
         } catch (IllegalArgumentException ex) {

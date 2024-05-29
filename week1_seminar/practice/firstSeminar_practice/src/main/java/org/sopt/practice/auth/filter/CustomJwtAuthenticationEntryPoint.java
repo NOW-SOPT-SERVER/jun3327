@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.sopt.practice.common.dto.ErrorMessage;
 import org.sopt.practice.common.dto.ErrorResponse;
+import org.sopt.practice.exception.UnauthorizedException;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -21,16 +22,20 @@ public class CustomJwtAuthenticationEntryPoint implements AuthenticationEntryPoi
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
-        setResponse(response);
+        setResponse(response, request);
     }
 
-    private void setResponse(HttpServletResponse response) throws IOException {
+    private void setResponse(HttpServletResponse response, HttpServletRequest request) throws IOException {
+        UnauthorizedException exception = (UnauthorizedException) request.getAttribute("exception");
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setCharacterEncoding("UTF-8");
         response.getWriter()
+//                .write(objectMapper.writeValueAsString(
+//                        ErrorResponse.of(ErrorMessage.JWT_UNAUTHORIZED_EXCEPTION.getStatus(),
+//                                ErrorMessage.JWT_UNAUTHORIZED_EXCEPTION.getMessage())));
                 .write(objectMapper.writeValueAsString(
-                        ErrorResponse.of(ErrorMessage.JWT_UNAUTHORIZED_EXCEPTION.getStatus(),
-                                ErrorMessage.JWT_UNAUTHORIZED_EXCEPTION.getMessage())));
+                        ErrorResponse.of(exception.getErrorMessage().getStatus(),
+                                exception.getErrorMessage().getMessage())));
     }
 }
