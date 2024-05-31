@@ -21,13 +21,14 @@ public class Selling extends BaseTimeEntity {
     private double price;
     private String text;
     private String location;
+    private String imgUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
     @Builder(access = AccessLevel.PRIVATE)
     private Selling(String title, String method, boolean priceProposal,
-                          double price, String text, String location, Member member) {
+                          double price, String text, String location, Member member, String imgUrl) {
         this.title = title;
         this.method = method;
         this.proposal = priceProposal;
@@ -35,9 +36,10 @@ public class Selling extends BaseTimeEntity {
         this.text = text;
         this.location = location;
         this.member =member;
+        this.imgUrl = imgUrl;
     }
 
-    public static Selling create(SellingCreateDto createDto, Member member) {
+    public static Selling create(SellingCreateDto createDto, Member member, String imgUrl) {
         return Selling.builder()
                 .title(createDto.title())
                 .method(createDto.method())
@@ -46,6 +48,7 @@ public class Selling extends BaseTimeEntity {
                 .text(createDto.text())
                 .location(createDto.location())
                 .member(member)
+                .imgUrl(imgUrl)
                 .build();
     }
 
