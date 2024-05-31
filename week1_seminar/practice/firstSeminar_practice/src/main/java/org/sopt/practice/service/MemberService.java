@@ -24,7 +24,6 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final JwtTokenProvider jwtTokenProvider;
-    private final RedisTokenRepository redisTokenRepository;
 
 //    @Transactional
 //    public String createMember(final MemberCreateDto createDto) {

@@ -1,12 +1,10 @@
 package org.sopt.practice.auth.filter;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpServletResponseWrapper;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.sopt.practice.common.dto.SuccessStatusResponse;

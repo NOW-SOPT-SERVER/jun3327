@@ -22,7 +22,6 @@ import java.util.List;
 public class MemberController {
 
     private final MemberService memberService;
-    private final JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("")
     public ResponseEntity<UserJoinResponse> postMember(
