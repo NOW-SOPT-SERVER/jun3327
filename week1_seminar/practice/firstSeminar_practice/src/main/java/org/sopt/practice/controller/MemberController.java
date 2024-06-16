@@ -1,7 +1,11 @@
 package org.sopt.practice.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.sopt.practice.common.dto.SuccessStatusResponse;
+import org.sopt.practice.common.jwt.JwtTokenProvider;
+import org.sopt.practice.domain.SuccessMessage;
 import org.sopt.practice.service.MemberService;
+import org.sopt.practice.service.dto.AccessTokenRefreshResponse;
 import org.sopt.practice.service.dto.MemberCreateDto;
 import org.sopt.practice.service.dto.MemberFindDto;
 import org.sopt.practice.service.dto.UserJoinResponse;

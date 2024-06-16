@@ -1,8 +1,8 @@
 package org.sopt.practice.common;
 
-import org.sopt.practice.Exception.NotFoundException;
-import org.sopt.practice.Exception.UnauthorizedException;
-import org.sopt.practice.Exception.UserAuthenticationException;
+import org.sopt.practice.exception.NotFoundException;
+import org.sopt.practice.exception.UnauthorizedException;
+import org.sopt.practice.exception.UserAuthenticationException;
 import org.sopt.practice.common.dto.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

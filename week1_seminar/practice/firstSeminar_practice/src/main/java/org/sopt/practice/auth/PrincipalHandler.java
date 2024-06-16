@@ -1,6 +1,6 @@
 package org.sopt.practice.auth;
 
-import org.sopt.practice.Exception.UnauthorizedException;
+import org.sopt.practice.exception.UnauthorizedException;
 import org.sopt.practice.common.dto.ErrorMessage;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;

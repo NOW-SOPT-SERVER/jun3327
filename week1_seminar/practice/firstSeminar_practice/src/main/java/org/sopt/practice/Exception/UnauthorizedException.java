@@ -1,4 +1,4 @@
-package org.sopt.practice.Exception;
+package org.sopt.practice.exception;
 
 import org.sopt.practice.common.dto.ErrorMessage;
 

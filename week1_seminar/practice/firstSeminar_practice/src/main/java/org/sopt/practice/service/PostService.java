@@ -1,10 +1,9 @@
 package org.sopt.practice.service;
 
-import jakarta.persistence.PostRemove;
 import lombok.RequiredArgsConstructor;
-import org.sopt.practice.Exception.ErrorMessage;
-import org.sopt.practice.Exception.NotFoundException;
-import org.sopt.practice.Exception.UserAuthenticationException;
+import org.sopt.practice.common.dto.ErrorMessage;
+import org.sopt.practice.exception.NotFoundException;
+import org.sopt.practice.exception.UserAuthenticationException;
 import org.sopt.practice.domain.Blog;
 import org.sopt.practice.domain.Post;
 import org.sopt.practice.repository.PostRepository;

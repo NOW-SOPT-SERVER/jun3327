@@ -37,8 +37,8 @@ dependencies {
 	//Multipart file
 	implementation("software.amazon.awssdk:bom:2.21.0")
 	implementation("software.amazon.awssdk:s3:2.21.0")
-
-
+	//Redis
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	//Security
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 }

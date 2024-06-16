@@ -1,10 +1,12 @@
 package org.sopt.practice.service;
 
 import lombok.RequiredArgsConstructor;
-import org.sopt.practice.Exception.NotFoundException;
+import org.sopt.practice.auth.redis.domain.Token;
+import org.sopt.practice.auth.redis.repository.RedisTokenRepository;
+import org.sopt.practice.common.dto.ErrorMessage;
+import org.sopt.practice.exception.NotFoundException;
 import org.sopt.practice.auth.UserAuthentication;
 import org.sopt.practice.common.jwt.JwtTokenProvider;
-import org.sopt.practice.Exception.ErrorMessage;
 import org.sopt.practice.domain.Member;
 import org.sopt.practice.repository.MemberRepository;
 import org.sopt.practice.service.dto.MemberCreateDto;
@@ -41,7 +43,10 @@ public class MemberService {
         String accessToken = jwtTokenProvider.issueAccessToken(
                 UserAuthentication.createUserAuthentication(memberId)
         );
-        return UserJoinResponse.of(accessToken, memberId.toString());
+        String refreshToken = jwtTokenProvider.issueRefreshToken(
+                UserAuthentication.createUserAuthentication(memberId)
+        );
+        return UserJoinResponse.of(accessToken, refreshToken, memberId.toString());
     }
 
 //    @Transactional(readOnly = true)
