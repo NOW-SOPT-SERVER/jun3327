@@ -1,5 +1,7 @@
 package sopt.week2clone.service.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public record SellingCreateDto(
         Long memberId,
         String title,
@@ -7,6 +9,7 @@ public record SellingCreateDto(
         boolean priceProposal,
         double price,
         String text,
-        String location
+        String location,
+        MultipartFile imgFile
 ) {
 }

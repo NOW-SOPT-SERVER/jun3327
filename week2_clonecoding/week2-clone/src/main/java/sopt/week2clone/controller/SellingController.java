@@ -16,13 +16,19 @@ public class SellingController {
     private final SellingService sellingService;
 
     @PostMapping("")
-    public ResponseEntity createSelling(@RequestBody SellingCreateDto sellingCreateDto) {
+    public ResponseEntity createSelling(@ModelAttribute SellingCreateDto sellingCreateDto) {
         return ResponseEntity.created(URI.create(sellingService.createSelling(sellingCreateDto))).build();
     }
 
     @GetMapping("/list")
-        public ResponseEntity getSellingListByLocation(@RequestParam String location) {
-            sellingService.findListByLocation(location);
-        }
+    public ResponseEntity getSellingListByLocation(@RequestParam(value = "location") String location) {
+        return ResponseEntity.ok().body(sellingService.findListByLocation(location));
     }
+
+    @DeleteMapping("{sellingId}")
+    public ResponseEntity deleteSelling(@PathVariable(value = "sellingId") Long sellingId) {
+        sellingService.deleteById(sellingId);
+        return ResponseEntity.noContent().build();
+    }
+
 }
